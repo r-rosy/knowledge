@@ -102,3 +102,28 @@ func (i *Instance) Addr() interface{} {
 	return i.instance.Addr().Interface()
 }
 ```
+
+### 测试
+```go
+func TestStruct(t *testing.T) {
+	pe := NewBuilder().
+		AddString("Name").
+		AddInt64("Age").
+		Build()
+	p := pe.New()
+	p.SetString("Name","你好")
+	p.SetInt64("Age",32)
+	fmt.Printf("%+v\n",p)
+	fmt.Printf("%T，%+v\n",p.Interface(),p.Interface())
+	fmt.Printf("%T，%+v\n",p.Addr(),p.Addr())
+}
+```
+### 结果
+```go
+=== RUN   TestStruct
+&{instance:{typ:0xc00003e180 ptr:0xc0000045a0 flag:409} index:map[Age:1 Name:0]}
+struct { Name string; Age int64 }，{Name:你好 Age:32}
+*struct { Name string; Age int64 }，&{Name:你好 Age:32}
+--- PASS: TestStruct (0.00s)
+PASS
+```
